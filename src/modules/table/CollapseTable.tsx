@@ -83,12 +83,11 @@ function CollapseTable() {
     state.data.projectId || ""
       ? [`${projectName}`]
       : projectQueryData?.map((x: TGatewayProps) => x.name);
-
   return (
     <Box>
       <Header getGatewaysQuery={getGatewaysQuery} />
       {!reports.isLoading ? (
-        reportData && reports.isSuccess ? (
+        reportData && reportData.length && reports.isSuccess ? (
           <Grid templateColumns="repeat(2, 1fr)">
             <GridItem colSpan={{ base: 2, xl: isEmpty ? 2 : 1 }}>
               <Box
