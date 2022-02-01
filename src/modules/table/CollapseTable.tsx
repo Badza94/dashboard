@@ -83,6 +83,9 @@ function CollapseTable() {
     state.data.projectId || ""
       ? [`${projectName}`]
       : projectQueryData?.map((x: TGatewayProps) => x.name);
+
+  const totalName =
+    (projectGroup && state.data.projectId !== "" && "Project") || "Gateway";
   return (
     <Box>
       <Header getGatewaysQuery={getGatewaysQuery} />
@@ -162,7 +165,12 @@ function CollapseTable() {
             </GridItem>
             {!isEmpty && (
               <GridItem colSpan={{ base: 2, xl: 1 }}>
-                <Flex justifyContent="center" mt={{ base: "50px", xl: "0" }}>
+                <Flex
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  mt={{ base: "50px", xl: "0" }}
+                >
                   <PieChart
                     data={
                       chartDataFoProjects.length
@@ -175,6 +183,17 @@ function CollapseTable() {
                         : projectLabels
                     }
                   />
+                  <Box
+                    bg="blue.50"
+                    borderRadius="10px"
+                    px="20px"
+                    py="17px"
+                    w="100%"
+                  >
+                    <Text fontSize="19px" fontWeight="bold" lineHeight="19px">
+                      {totalName} Total | {totalNumber?.toFixed(2)} USD
+                    </Text>
+                  </Box>
                 </Flex>
               </GridItem>
             )}
