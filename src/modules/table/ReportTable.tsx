@@ -6,6 +6,14 @@ type TReportTableProps = {
 };
 function ReportTable({ data, getGatewaysQuery }: TReportTableProps) {
   const gatewaysData = getGatewaysQuery?.data?.data;
+  // sort items by date in descending order
+  const newData = data.sort(function (a, b) {
+    const c = new Date(a.created).valueOf();
+    const d = new Date(b.created).valueOf();
+    //return c - d; // return ascending
+    return d - c; // return descending
+  });
+
   return (
     <Box overflowX="auto">
       <Table variant="striped" colorScheme="blue">
@@ -18,13 +26,19 @@ function ReportTable({ data, getGatewaysQuery }: TReportTableProps) {
           </Tr>
         </Thead>
         <Tbody>
-          {data.map((item: TTableData, index: number) => {
+          {newData.map((item: TTableData, index: number) => {
             const gatewayProject = gatewaysData?.find(
               (gateway: TGatewayProps) => gateway.gatewayId === item.gatewayId
             );
+            const date = new Date(item?.created);
+            const d = date.getDate();
+            const m = date.getMonth() + 1;
+            const y = date.getFullYear();
+            const formatD = `${d}.${m}.${y}`;
+
             return (
               <Tr key={index}>
-                <Td>{item?.created}</Td>
+                <Td>{formatD}</Td>
                 <Td>{gatewayProject?.name}</Td>
                 <Td textAlign="left">{item?.paymentId}</Td>
                 <Td isNumeric>{item?.amount.toFixed(2)} USD</Td>
